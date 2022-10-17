@@ -1,9 +1,7 @@
 class RandomizedSet {
-    int idx;
     Map<Integer, Integer> map;
     List<Integer> list;
     public RandomizedSet() {
-        idx = 0;
         map = new HashMap<>();
         list = new ArrayList<>();
     }
@@ -12,7 +10,7 @@ class RandomizedSet {
         if(map.containsKey(val)){
             return false;
         }
-        map.put(val, idx++);
+        map.put(val, list.size());
         list.add(val);
         return true;
     }
@@ -20,12 +18,11 @@ class RandomizedSet {
     public boolean remove(int val) {
         if(map.containsKey(val)){
             int currIdx = map.get(val);
-            int lastEle = list.get(idx-1);
+            int lastEle = list.get(list.size()-1);
             list.set(currIdx, lastEle);
             map.put(lastEle, currIdx);
             map.remove(val);
-            list.remove(idx-1);
-            idx--;
+            list.remove(list.size()-1);
             return true;
         }
 
