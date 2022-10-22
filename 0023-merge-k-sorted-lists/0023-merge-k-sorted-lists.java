@@ -8,9 +8,9 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-// the outer loop try to pick the min node from all the heads of lists
-// connect the prevNode next to the one is picked
-// set prevNode to the one is picked
+// first, put every head nodes of lists[i] in the pq
+// while loop: top element is the node who has the min val
+// the end condition is when pq is empty
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         int N = lists.length;
@@ -20,35 +20,36 @@ class Solution {
         ListNode dummyHead = new ListNode(-1);
         ListNode prevNode = dummyHead;
         
-        while(true){
-            int idx=0;
-            while(idx< N && lists[idx] == null){
-                idx++;
+        PriorityQueue<ListNode> pq = new PriorityQueue<>( (n1, n2) -> Integer.compare(n1.val, n2.val) );
+        
+        for(int i=0; i< N; i++){    
+            if(lists[i] != null){
+                pq.offer(lists[i]);
             }
-            if(idx==N){
-                break;
-            }
-            int minIdx = idx;
-
-            for(int i=idx+1; i< N; i++){    
-                if(lists[i] != null && lists[i].val < lists[minIdx].val){
-                    minIdx = i;
-                }
-            }
-            prevNode.next = lists[minIdx];
+        }
+        while(!pq.isEmpty()){
+            ListNode curr = pq.poll();
+            prevNode.next = curr;
             prevNode = prevNode.next;
-            lists[minIdx] = lists[minIdx].next;
+            if(curr.next!=null){
+                pq.offer(curr.next);    
+            }
         }
         return dummyHead.next;
     }
 }
+// [1,1,2]
+// prev    curr    pq
+// -1      1       [1,2,4]
+// 1       1       [2,3,4]
+// 1       2       [3,4,6]
+// 2       3       [4,4,6]
+// 3       4       [4,5,6]
+// 4       4       [5,6]
+// 4       5       [6]
+// 5       6       []
 
-// minIdx  prevNode
-// 0       1       lists[0]=4
-// 1       1       lists[1]=3
-// 2       2       lists[2]=6
-// 1       3       lists[1]=4
-// 0       4       lists[0]=5
-// 1       4       lists[1]=null    
-// 0       5       lists[0]=null   
-// 2       6       lists[2]=null
+
+
+// TC: O(M): M is the number of total nodes in the lists
+// SC: O(1)
