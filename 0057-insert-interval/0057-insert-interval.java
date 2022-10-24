@@ -1,9 +1,8 @@
-// sort the intervals array by start
-// create a var called toBeAdd to keep an interval to add into the ans
-// start loop by each element
-// if new interval start is smaller ans equal than the current element, try to merge
-//      set to the toBeAdd
-// when to add newInterval to the ans
+// solved by 3 while loop (3 phases).
+// 1. add the interval which is not overllaped with the new interval to the answer list
+// 2. merge the largest range's interval if the curr interval is overlapped with new interval
+//     * insert the new interval here
+// 3. add the rest of the intervals to the answer list
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
         List<int[]> list = new ArrayList<>();
