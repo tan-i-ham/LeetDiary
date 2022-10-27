@@ -36,25 +36,24 @@ class Trie {
     }
     
     public boolean search(String word) {
-        TrieNode curr = root;
-        for(char ch: word.toCharArray()){
-            if(curr.childs[ch-'a']==null){
-                return false;
-            }
-            curr = curr.childs[ch-'a'];
-        }    
-        return curr.hasWord;
+        TrieNode node = searchByPrefix(word);
+        return node != null && node.hasWord; 
     }
     
     public boolean startsWith(String prefix) {
+        TrieNode node = searchByPrefix(prefix);
+        return node != null;        
+    }
+    
+    public TrieNode searchByPrefix(String prefix){
         TrieNode curr = root;
         for(char ch: prefix.toCharArray()){
             if(curr.childs[ch-'a']==null){
-                return false;
+                return null;
             }
             curr = curr.childs[ch-'a'];
-        }    
-        return true;        
+        }   
+        return curr;
     }
 }
 
