@@ -13,33 +13,33 @@
  *     }
  * }
  */
-// create a min heap to add the BST's nodes' values: SC: O(N)
-// traverse the tree: O(N)
+
+// inorder traverse the tree: O(N)
 class Solution {
-    int currIdx;
-    int ans;
+
     public int kthSmallest(TreeNode root, int k) {
-        currIdx = 0;
-        ans =0;
-        inorderTraverse(root, k);
-        return ans;
-    }
-    
-    public void inorderTraverse(TreeNode node, int k) {
-        if(node==null){
-            
-            return;
+        if(root==null){
+            return 0;
         }
-        // if(currIdx==k){
-        //     ans = node.val;
-        //     return ;
-        // }
-        inorderTraverse(node.left, k);
-        currIdx++;
-        if(currIdx==k){
-            ans = node.val;
-            return ;
-        }        
-        inorderTraverse(node.right, k);
+        int count = 0;
+        TreeNode curr = root;
+        Stack<TreeNode> stack = new Stack<>();
+        
+        while(curr != null || !stack.isEmpty()){
+            while(curr != null){
+                stack.add(curr);
+                curr = curr.left;
+            }
+
+            curr = stack.pop();
+            count++;
+            if(count == k){
+                return curr.val; 
+            }            
+            curr = curr.right;
+        }
+        
+        return 0;
     }
+
 }
