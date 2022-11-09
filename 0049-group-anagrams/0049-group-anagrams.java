@@ -13,10 +13,7 @@ class Solution {
             }
             map.get(key).add(str);
         }
-        List<List<String>> ans = new ArrayList<>();
-        for(String k: map.keySet()){
-            ans.add(map.get(k));
-        }
-        return ans;
+
+        return new ArrayList<>(map.values());
     }
 }
