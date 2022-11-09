@@ -6,25 +6,20 @@ class Solution {
         
         int N = nums.length;
         int[][] min = new int[N][N];
-        for(int s=0; s < N; s++){
-            for(int e=s; e < N; e++){
-                if(s==e){
-                    min[s][e] = nums[e];
-                }else{
-                    min[s][e] = Math.min(min[s][e-1], nums[e]);
-                }
-            }
-        }
         int[][] max = new int[N][N];
         for(int s=0; s < N; s++){
             for(int e=s; e < N; e++){
                 if(s==e){
+                    min[s][e] = nums[e];
                     max[s][e] = nums[e];
                 }else{
+                    min[s][e] = Math.min(min[s][e-1], nums[e]);
                     max[s][e] = Math.max(max[s][e-1], nums[e]);
                 }
             }
-        }      
+        }
+
+  
         long ans = 0;
         for(int s=0; s < N; s++){
             for(int e=s; e < N; e++){
