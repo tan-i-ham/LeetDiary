@@ -9,20 +9,15 @@ class Solution {
         int[][] max = new int[N][N];
         long ans = 0;
         for(int s=0; s < N; s++){
+            int minVal = nums[s];
+            int maxVal = nums[s];
             for(int e=s; e < N; e++){
-                if(s==e){
-                    min[s][e] = nums[e];
-                    max[s][e] = nums[e];
-                }else{
-                    min[s][e] = Math.min(min[s][e-1], nums[e]);
-                    max[s][e] = Math.max(max[s][e-1], nums[e]);
-                }
-                ans += (max[s][e] - min[s][e]);
+                minVal = Math.min(minVal, nums[e]);
+                maxVal = Math.max(maxVal, nums[e]);
+                
+                ans += (maxVal - minVal);
             }
         }
-
-  
-        
 
         return ans;
     }
