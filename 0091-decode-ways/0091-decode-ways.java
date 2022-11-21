@@ -5,44 +5,32 @@
 class Solution {
     Map<String, Integer> map;
     public int numDecodings(String s) { 
-        map = new HashMap<>();
-        map.put("", 1);
-        map.put("0", 0);
-        return helper(s);
-    }
-    public int helper(String s) {
         int sLen = s.length();
-        if(map.containsKey(s)){
-            return map.get(s);
-        }
         if(sLen==0){
-            return 1;
+            return 0;
         }
-        if(sLen==1){
-            if(s.charAt(0) == '0'){
-                return 0;
+        int[] dp = new int[sLen+1];
+        dp[0] = 1;
+        dp[1] = s.charAt(0)=='0' ? 0 :1;
+        
+        
+        for(int i=2; i<= sLen; i++){
+            char prevTwoChar = s.charAt(i-2);
+            char prevOneChar = s.charAt(i-1);
+            if(prevOneChar != '0'){
+                dp[i] = dp[i-1];    
             }
-            map.put(s, 1);
-            return 1;
-        }
-        int res = 0;
-        if(s.charAt(0) >= '1' && s.charAt(0) <= '9'){
-            res += helper(s.substring(1));
-        }
-        if(s.charAt(0)=='1'){
-             if(sLen>=2 && s.charAt(1) >= '0' && s.charAt(1) <= '9'){
-                res += helper(s.substring(2));
-            }
-        }
-        if(s.charAt(0)=='2'){
-             if(sLen>=2 && s.charAt(1) >= '0' && s.charAt(1) <= '6'){
-                res += helper(s.substring(2));
-            }
-        }        
-        map.put(s, res);
-        return res;
-    }
     
+            if(prevTwoChar == '1' && prevOneChar>='0' && prevOneChar<='9'){
+                dp[i] += dp[i-2];
+            }
+            if(prevTwoChar == '2' && prevOneChar>='0' && prevOneChar<='6'){
+                dp[i] += dp[i-2];
+            }
+        }
+        
+        return dp[sLen];
+    }
 }
-// TC: O(2^N)
+// TC: O(N)
 // SC: O(N), N is the len(s)
