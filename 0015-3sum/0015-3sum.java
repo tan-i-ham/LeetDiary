@@ -8,21 +8,28 @@ class Solution {
         List<List<Integer>> ans = new ArrayList<>();
         
         
+        // a + b + c = 0
         
         for(int i=0; i< N; i++){
-            if(i> 0 && nums[i]==nums[i-1]){
+            if(i> 0 && nums[i]==nums[i-1]){ // choose a
                 continue;
             }
-            Set<Integer> seen = new HashSet<>();
-            for(int j=i+1; j< N; j++){
-                int sum = nums[i] + nums[j];
-                if(seen.contains(-sum)){
-                    ans.add(Arrays.asList(nums[i], nums[j], -sum));
-                    while (j + 1 < N && nums[j] == nums[j + 1]){
-                        j++;
+            int l = i+1;
+            int r = N-1;
+
+            while(l < r){
+                int sum = nums[i] + nums[l] + nums[r];
+                if(sum < 0){
+                    l++;
+                }else if(sum > 0){
+                    r--;
+                }else{
+                    ans.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    l++;
+                    while(l< r && nums[l] == nums[l-1]){
+                        l++;
                     }
                 }
-                seen.add(nums[j]);
             }
         }
         return ans;
