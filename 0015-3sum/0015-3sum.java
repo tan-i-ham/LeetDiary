@@ -1,5 +1,3 @@
-// no duplicate and order does not matter
-// map, key is 0-n1-n2, value is list of set {[n1,n2]}
 // TC: O(n^2)
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
@@ -26,7 +24,7 @@ class Solution {
                 }else{
                     ans.add(Arrays.asList(nums[i], nums[l], nums[r]));
                     l++;
-                    while(l< r && nums[l] == nums[l-1]){
+                    while(l< r && nums[l] == nums[l-1]){ // increase the left pointer only, because the array is sorted, right point will be updated at line 24, e.g [-3,-2,-2,0,0,2,2], l will to first 0, the r will start to decrease
                         l++;
                     }
                 }
