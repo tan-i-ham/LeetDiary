@@ -26,13 +26,17 @@ class Solution {
     
     public boolean dfs(int classNum, List<List<Integer>> adjList, boolean[] v){
         if(v[classNum]){
+            // there is a loop/cycle
             return false;
         }
-        v[classNum] = true;
+        if(adjList.get(classNum).size()==0){
+            return true;
+        }
+        v[classNum] = true; // we are currently visiting this courese
         for(int preClass: adjList.get(classNum)){
             if (!dfs(preClass, adjList, v)) return false;
         }
-        v[classNum] = false;
+        v[classNum] = false; // we finished this course's visit
         adjList.set(classNum, new ArrayList<>()); // empty means no more pre class to take
         
         return true;
