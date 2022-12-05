@@ -13,33 +13,37 @@
  *     }
  * }
  */
-
-// inorder traverse the tree: O(N)
 class Solution {
-
+    int K;
+    int ans;
     public int kthSmallest(TreeNode root, int k) {
-        if(root==null){
-            return 0;
-        }
-        int count = 0;
-        TreeNode curr = root;
-        Stack<TreeNode> stack = new Stack<>();
-        
-        while(curr != null || !stack.isEmpty()){
-            while(curr != null){
-                stack.add(curr);
-                curr = curr.left;
-            }
-
-            curr = stack.pop();
-            count++;
-            if(count == k){
-                return curr.val; 
-            }            
-            curr = curr.right;
-        }
-        
-        return 0;
+        K = k;
+        helper(root);
+        return ans;
     }
-
+    public void helper(TreeNode root){
+        if(root==null){
+            return;
+        }
+        helper(root.left);
+        K--;
+        if(K==0){
+            ans = root.val;
+            return;
+        }
+        helper(root.right);
+    }
 }
+
+// h(3)
+//     h(1)
+// h(5)
+//     h(3)
+//         h(2)
+//             h(1)
+//                 h(null)
+//                 k=3->2
+//                 h(null)
+//             k=2->1
+//             h(null)
+//         k=1->0 , return 3
