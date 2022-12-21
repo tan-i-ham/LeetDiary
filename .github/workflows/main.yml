@@ -1,6 +1,8 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+  pull_request:
+    types: [opened, reopened]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -19,12 +21,14 @@ jobs:
   English-checker-Actions:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3    
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: 16.13.x
           cache: npm
       - name: Install
-        run: npm install -g write-good
+        run: npm write-good
       - name: Check
         run: write-good *.md
