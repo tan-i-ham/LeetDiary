@@ -16,7 +16,9 @@ jobs:
           node-version: 16.13.x
           cache: npm
       - name: Install
-        run: npm write-good
+        run: npm ci
+      - name: Run by npx
+        run: npx write-good *.md
       - name: Check
         run: write-good *.md
   Explore-GitHub-Actions:
