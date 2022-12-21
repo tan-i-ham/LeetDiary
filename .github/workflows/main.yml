@@ -19,8 +19,10 @@ jobs:
         run: npm ci
       - name: Run by npx
         run: npx write-good *.md
-#       - name: Check
-#         run: write-good *.md
+      - name: Install write-good
+        run: npm install -g write-good        
+      - name: Check
+        run: write-good *.md
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
