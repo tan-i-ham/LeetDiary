@@ -3,7 +3,6 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   workflow_dispatch:
   pull_request:
-    types: [opened, reopened]
 jobs:
   English-checker-Actions:
     runs-on: ubuntu-latest
