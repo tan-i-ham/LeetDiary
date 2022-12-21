@@ -1,0 +1,22 @@
+{
+  "name": "leetdiary",
+  "version": "1.0.0",
+  "description": "for leetcode practice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tan-i-ham/LeetDiary.git"
+  },
+  "author": "yihan.chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tan-i-ham/LeetDiary/issues"
+  },
+  "homepage": "https://github.com/tan-i-ham/LeetDiary#readme",
+  "dependencies": {
+    "write-good": "^1.0.8"
+  }
+}
