@@ -1,26 +1,35 @@
 class Solution {
-    List<List<Integer>> ans;
     public List<List<Integer>> permute(int[] nums) {
-        ans = new ArrayList<>();
-        dfs(nums, new ArrayList<>());
-        return ans;
-    }
-    
-    public void dfs(int[] nums, List<Integer> currPer){
-        if(nums.length == currPer.size()){
-            ans.add(new ArrayList<>(currPer));
-            return;
-        }
+        List<Integer> list = new ArrayList<>();
         
         for(int num: nums){
-            if(currPer.contains(num)){
-                continue;
-            }
-            currPer.add(num);
-            dfs(nums, currPer);
-            currPer.remove(currPer.size()-1);
+            list.add(num);
         }
+        
+        return dfs(list);
+    }
+    
+    public List<List<Integer>> dfs(List<Integer> list){
+        List<List<Integer>> res = new ArrayList<>();
+        if(list.size() == 1){
+            res.add(new ArrayList<>(list));
+            return res;
+        }
+        int N = list.size();
+        for(int i=0; i< N; i++){
+            int popNum = list.get(0);
+            list.remove(0);
+            
+            List<List<Integer>> perms = dfs(list);
+            
+            for(List<Integer> perm: perms){
+                perm.add(popNum);
+                res.add(new ArrayList<>(perm));
+            }
+            list.add(popNum);
+        }
+        return res;
     }
 }
-// TC: O(2^N)
+// TC: O(N!)
 // SC: O(N)
