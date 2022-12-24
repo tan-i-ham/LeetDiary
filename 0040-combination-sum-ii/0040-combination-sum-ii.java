@@ -16,19 +16,19 @@ class Solution {
             ans.add(new ArrayList<>(currCom));
             return;
         }
-        int prev = -1;
         for(int i=startIdx; i< N; i++){
             if(candidates[i] > target){
                 break;
             }
-            if(prev == candidates[i]){
+            if(i > startIdx && candidates[i] == candidates[i-1]){
                 continue;
             }
 
             currCom.add(candidates[i]);
             dfs(candidates, target - candidates[i], currCom, i+1);
             currCom.remove(currCom.size()-1);
-            prev = candidates[i];
         }
     }
 }
+// TC: O(2^N)
+// SC: O(N)
