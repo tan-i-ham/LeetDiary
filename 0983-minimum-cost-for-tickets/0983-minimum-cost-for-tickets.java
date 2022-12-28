@@ -1,35 +1,36 @@
 class Solution {
     public int mincostTickets(int[] days, int[] costs) {
         int N = days.length;
-        int[] memo = new int[N+1];
-        return dfs(days, costs, 0, memo);
-        // return memo[N];
+        // dp[i] means: the min cost from 1 to i
+        int[] dp = new int[days[N-1]+1];
+        Set<Integer> set = new HashSet<>();
+        for(int d: days){
+            set.add(d);
+        }
+        for(int i=1; i <= days[N-1]; i++){
+            if(set.contains(i)){
+                if(i-1 >= 0){
+                    dp[i] = dp[i-1] + costs[0];
+                }else{
+                    dp[i] = dp[0] + costs[0];
+                }
+                if(i-7 >= 0){
+                    dp[i] = Math.min(dp[i], dp[i-7] + costs[1]);
+                }else{
+                    dp[i] = Math.min(dp[i], dp[0] + costs[1]);
+                }
+                if(i-30 >= 0){
+                    dp[i] = Math.min(dp[i], dp[i-30] + costs[2]);
+                }else{
+                    dp[i] =  Math.min(dp[i], dp[0] + costs[2]);
+                }         
+            }else{
+                dp[i] = dp[i-1];
+            }
+        }
+        // System.out.println(Arrays.toString(dp));
+        return dp[days[N-1]];
     }
-    public int dfs(int[] days, int[] costs, int idx, int[] memo){
-        int N = days.length;
-        if(idx >= N){
-            return 0 ;
-        }
-        if(memo[idx]!=0){
-            return memo[idx];
-        }
-        int dayCost = costs[0] + dfs(days, costs, idx+1, memo);
-        
-        int i=idx;
-        while(i<N && days[i] < days[idx] + 7){
-            i++;
-        }
-        int weekCost = costs[1] + dfs(days, costs, i, memo);
-        
-        i= idx;
-        while(i<N && days[i] < days[idx]+30){
-            i++;
-        }
-        int monthCost = costs[2] + dfs(days, costs, i, memo);
-        
-        int ans = Math.min(dayCost, weekCost);
-        ans =  Math.min(ans, monthCost);
-        memo[idx] = ans;
-        return ans;
-    }    
 }
+// TC: O(max(days))
+// SC: O(N) because set
