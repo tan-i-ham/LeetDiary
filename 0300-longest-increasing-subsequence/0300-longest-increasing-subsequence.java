@@ -1,18 +1,24 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int N = nums.length;
-        int[] dp = new int[N];
-        int ans = 1;
+        List<Integer> sub = new ArrayList<>();
+
+        // build the longest and optimal subsequence
         for(int i=0; i< N; i++){
-            dp[i] = 1; //green color in the solution
-            for(int j=0; j< i; j++){
-                if(nums[j] < nums[i]){
-                    dp[i] = Math.max(dp[i], dp[j]+1);
+            int curr = nums[i];
+            if(sub.size()==0 || curr > sub.get(sub.size()-1)){
+                sub.add(curr);
+                continue;
+            }
+            for(int j=0; j< sub.size(); j++){// j is the index of poosible to be replaced
+                if(sub.get(j) >= curr){
+                    sub.set(j, curr);
+                    break;
                 }
             }
-            ans = Math.max(ans, dp[i]);
         }
-        return ans;
+        // System.out.println(sub);
+        return sub.size();
     }
 }
 
