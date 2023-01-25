@@ -1,8 +1,6 @@
 class KthLargest {
     // create a minHeap, that has k elements only
-    // create a maxHeap to store the other elements when nums array has number of elements that larger than k
     PriorityQueue<Integer> minHeap;
-    PriorityQueue<Integer> maxHeap;
     int K;
     
     // the constructor
@@ -10,8 +8,6 @@ class KthLargest {
     // SC: O(N)
     public KthLargest(int k, int[] nums) {
         minHeap = new PriorityQueue<>();
-        // minHeap = new PriorityQueue<>( (a, b) -> Integer.compares(b, a));
-        maxHeap = new PriorityQueue<>(Collections.reverseOrder());
         
         K = k;
         for(int num: nums){
@@ -25,10 +21,8 @@ class KthLargest {
             minHeap.add(val);    
         }else{
             if(minHeap.peek() < val){
-                maxHeap.add(minHeap.poll());
+                minHeap.poll();
                 minHeap.add(val);
-            }else{
-                maxHeap.add(val);
             }
         }
         return minHeap.peek();
