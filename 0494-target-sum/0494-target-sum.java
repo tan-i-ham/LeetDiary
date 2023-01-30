@@ -1,20 +1,34 @@
 // helper(currIdx, currSum, target)
 class Solution {
-    int ans;
+
+    int total;
+    int[][] memo;
     public int findTargetSumWays(int[] nums, int target) {
-        ans = 0;
-        helper(0, 0, target, nums);
-        return ans;
+        total = Arrays.stream(nums).sum();
+        
+        memo = new int[nums.length][total*2 + 1];
+        for (int[] row : memo) {
+            Arrays.fill(row, Integer.MIN_VALUE);
+        }
+        return helper(0, 0, target, nums);
     }
-    public void helper(int currIdx, int currSum, int target, int[] nums){
+    public int helper(int currIdx, int currSum, int target, int[] nums){
         if(currIdx>= nums.length){
             if(currSum == target){
-                ans++;
+                return 1;
             }
-            return;
+            return 0;
+        }
+        if(memo[currIdx][currSum + total] != Integer.MIN_VALUE){
+            return memo[currIdx][currSum + total];
         }
         
-        helper(currIdx+1, currSum+nums[currIdx], target, nums);
-        helper(currIdx+1, currSum-nums[currIdx], target, nums);
+        int addOption = helper(currIdx+1, currSum+nums[currIdx], target, nums);
+        int substractOption = helper(currIdx+1, currSum-nums[currIdx], target, nums);
+        memo[currIdx][currSum + total] = addOption + substractOption;
+        return memo[currIdx][currSum + total];
     }
 }
+
+// TC: O(total * N), N is the length of nums
+// SC: O(total * N)
