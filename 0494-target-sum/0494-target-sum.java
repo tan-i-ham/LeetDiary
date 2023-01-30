@@ -1,32 +1,21 @@
-// helper(currIdx, currSum, target)
 class Solution {
 
-    int total;
-    int[][] memo;
     public int findTargetSumWays(int[] nums, int target) {
-        total = Arrays.stream(nums).sum();
-        
-        memo = new int[nums.length][total*2 + 1];
-        for (int[] row : memo) {
-            Arrays.fill(row, Integer.MIN_VALUE);
-        }
-        return helper(0, 0, target, nums);
-    }
-    public int helper(int currIdx, int currSum, int target, int[] nums){
-        if(currIdx>= nums.length){
-            if(currSum == target){
-                return 1;
+        int total = Arrays.stream(nums).sum();
+        int N = nums.length;
+        int[][] dp = new int[N][total*2 + 1];
+        dp[0][nums[0] + total] = 1;
+        dp[0][-nums[0] + total] += 1;
+        for (int idx=1; idx < N; idx++) {
+            for (int sum=-total; sum<= total; sum++) {
+                if(dp[idx-1][sum+total] >0){
+                    dp[idx][sum + total + nums[idx] ] += dp[idx-1][sum + total];
+                    dp[idx][sum + total - nums[idx] ] += dp[idx-1][sum + total];
+                }
             }
-            return 0;
-        }
-        if(memo[currIdx][currSum + total] != Integer.MIN_VALUE){
-            return memo[currIdx][currSum + total];
         }
         
-        int addOption = helper(currIdx+1, currSum+nums[currIdx], target, nums);
-        int substractOption = helper(currIdx+1, currSum-nums[currIdx], target, nums);
-        memo[currIdx][currSum + total] = addOption + substractOption;
-        return memo[currIdx][currSum + total];
+        return Math.abs(target) > total ?0: dp[N-1][target + total];
     }
 }
 
