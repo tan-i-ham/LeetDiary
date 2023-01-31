@@ -28,7 +28,9 @@ class Solution {
             int ogCount = dictWin.getOrDefault(ch, 0);
             dictWin.put(ch, ogCount+1);
             
-            if(dictT.containsKey(ch) && dictWin.get(ch).intValue() == dictT.get(ch).intValue()){
+            if(dictT.containsKey(ch) &&
+               dictWin.get(ch).equals(dictT.get(ch))
+              ){
                 formed++;
             }
             while(l <= r && formed == required){
