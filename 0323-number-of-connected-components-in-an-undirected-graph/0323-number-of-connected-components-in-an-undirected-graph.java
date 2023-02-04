@@ -1,47 +1,46 @@
-// adj
-// when visit all the neighbor, but the visited set size still less than n, continue visit in the for loop in main func
 class Solution {
-    Map<Integer, List<Integer>> adj;
-    Set<Integer> v;
-    
+    int[] par;
+    int[] rank;
     public int countComponents(int n, int[][] edges) {
-        adj = new HashMap<>();
-        v = new HashSet<>();
-        int count = 0;
-        
-        for(int[] edge: edges){
-            List<Integer> l1 = adj.getOrDefault(edge[0], new ArrayList<>());
-            l1.add(edge[1]);
-            adj.put(edge[0], l1);
-            List<Integer> l2 = adj.getOrDefault(edge[1], new ArrayList<>());
-            l2.add(edge[0]);
-            adj.put(edge[1], l2);
-        }
-        
+        par = new int[n];
         for(int i=0; i< n; i++){
-            if(v.size()==n){
-                break;
-            }
-            if(v.contains(i)){
-                continue;
-            }
-            dfs(i);
-            count++;
+            par[i] = i;
         }
-        return count;
+        rank = new int[n];
+        Arrays.fill(rank, 1);
+        
+        int ans = n;
+        for(int[] edge: edges){
+            ans -= union(edge[0], edge[1]);
+        }
+        return ans;
     }
     
-    public void dfs(int node){
-        if(v.contains(node)){
-            return;
+    public int find(int node){
+        if(node == par[node]){
+            return node;
         }
-        v.add(node);
-        if(!adj.containsKey(node)){
-            return;
+        int res = node;
+        while(res != par[res]){
+            par[res] = par[par[res]];
+            res = par[res];
         }
-        for(int n: adj.get(node)){
-            dfs(n);
+        return res;
+    }
+    
+    public int union(int n1, int n2){
+        int p1 = find(n1);
+        int p2 = find(n2);
+        if(p1 == p2){
+            return 0;
         }
-        
+        if(rank[p1] >= rank[p2]){
+            par[p2] = p1;
+            rank[p1] += rank[p2];
+        }else{
+            par[p1] = p2;
+            rank[p2] += rank[p1];
+        }
+        return 1;
     }
 }
