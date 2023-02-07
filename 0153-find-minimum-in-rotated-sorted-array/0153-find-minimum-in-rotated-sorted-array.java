@@ -4,17 +4,16 @@ class Solution {
         int l = 0;
         int r = N - 1;
         
+        if(nums[l] < nums[r]){ // not rotated  
+            return nums[l];
+        }
         while(l < r){
             int m = l + (r-l)/2;
-            if(nums[l] < nums[r]){ // not roated  
-                r = m - 1;
+            // rotated
+            if(nums[m] < nums[r]){
+                r = m;
             }else{
-                // rotated
-                if(nums[m] < nums[r]){
-                    r = m;
-                }else{
-                    l = m+1;    
-                }
+                l = m+1;    
             }
         }
         return nums[l];
