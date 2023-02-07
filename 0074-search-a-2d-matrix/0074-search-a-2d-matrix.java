@@ -1,25 +1,25 @@
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
+        int rLen = matrix.length;
         int cLen = matrix[0].length;
-        for(int[] row: matrix){
-            if(row[0] <= target && target <= row[cLen-1]){
-                int l = 0;
-                int r = cLen - 1;
-                while(l <= r){
-                    int mid = l + (r - l)/2;
-                    if(row[mid] == target){
-                        return true;
-                    }else if(row[mid] <= target){
-                        l = mid + 1;
-                    }else{
-                        r = mid - 1;
-                    }
-                }
+        
+        int l = 0;
+        int r = rLen * cLen - 1;
+        while(l <= r){
+            int pivotIdx = l + (r - l)/2;
+            int pivotEle = matrix[pivotIdx/cLen][pivotIdx%cLen];
+            if(pivotEle == target){
+                return true;
+            }
+            if(pivotEle < target){
+                l = pivotIdx + 1;
+            }else{
+                r = pivotIdx - 1;
             }
         }
         return false;
     }
 }
 
-// TC: O(NlogN)
+// TC: O(MlogN), M is the row length
 // SC: O(1)
