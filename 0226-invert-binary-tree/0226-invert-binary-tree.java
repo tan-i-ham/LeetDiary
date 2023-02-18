@@ -29,3 +29,5 @@ class Solution {
         return root;
     }
 }
+// TC: O(N)
+// SC: O(logN) -> O(N)
