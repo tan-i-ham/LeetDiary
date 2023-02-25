@@ -43,6 +43,10 @@ class Solution {
         }
     }
     public boolean validTree(int n, int[][] edges) {
+        // if the graoh are all connected , the length of edge is N-1
+        if(edges.length != n-1){
+            return false;
+        }
         UnionFind uf = new UnionFind(n);
         for(int[] edge: edges){
             if(!uf.union(edge[0], edge[1])){
@@ -50,13 +54,6 @@ class Solution {
             }
         }
 
-        for(int i=0; i<n; i++){
-            for(int j=i+1; j<n; j++){
-                if(!uf.isConnected(i,j)){
-                    return false;
-                }
-            }
-        }
         return true;
     }
 }
