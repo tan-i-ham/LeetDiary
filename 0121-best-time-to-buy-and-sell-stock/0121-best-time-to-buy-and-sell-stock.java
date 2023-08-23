@@ -1,28 +1,17 @@
-// assign two 
+// create a variable stands for the buy price 
 class Solution {
     public int maxProfit(int[] prices) {
-        int N = prices.length;
-        int L = 0;
-        int R = 1;
-        int maxProfit = 0;
-        while(L < R && L < N & R < N){
-            int currProfit = prices[R] - prices[L];
-            if(currProfit < 0){
-                L++;
-            }else{
-                maxProfit = Math.max(currProfit, maxProfit);
-                R++;
-            }
-            if(L==R){
-                R++;
+        int buy = prices[0];
+        int ans = 0;
+        
+        for(int i=1; i< prices.length; i++){
+            ans = Math.max(ans, prices[i] - buy);
+            if(prices[i] < buy){
+                buy = prices[i];
             }
         }
-        return maxProfit;
+        return ans;
     }
 }
-// L   R   max
-// 0   1   0
-// 1   2   4
-// 1   3   4
-// 1   4   5
-// 1   5   5
+// TC: O(N)
+// SC: O(1)
