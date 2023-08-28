@@ -13,20 +13,14 @@ class Solution {
         if(root==null){
             return root;
         }
-        if(p.val == root.val || q.val == root.val){
-            return root;
-        }
-        
-        if(p.val < root.val && q.val > root.val){
-            return root;
-        }
-        if(q.val < root.val && p.val > root.val){
-            return root;
-        }
-        // all left
         if(p.val < root.val && q.val < root.val){
             return lowestCommonAncestor(root.left, p, q);
+        }else if (p.val > root.val && q.val > root.val){
+            return lowestCommonAncestor(root.right, p, q);
         }
-        return lowestCommonAncestor(root.right, p, q);
+        return root;
     }
 }
+
+// TC: O(logN) (avg), worst case: O(N) if screwed
+// SC: worst case: O(N) if screwed
