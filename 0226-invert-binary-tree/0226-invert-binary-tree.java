@@ -18,14 +18,21 @@ class Solution {
         if(root==null){
             return root;
         }
-        if(root.left==null && root.right == null){
-            return root;
-        }
-        TreeNode left = invertTree(root.left);
-        TreeNode right = invertTree(root.right);
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
         
-        root.left = right;
-        root.right = left;
+        while(!q.isEmpty()){
+            TreeNode node = q.poll();
+            if(node.right != null){
+                q.add(node.right);
+            }
+            if(node.left != null){
+                q.add(node.left);
+            }
+            TreeNode temp = node.right;
+            node.right = node.left;
+            node.left = temp;
+        }
         return root;
     }
 }
